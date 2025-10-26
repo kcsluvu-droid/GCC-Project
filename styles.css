@@ -1,0 +1,462 @@
+/* --- GLOBAL STYLES --- */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    font-size: 16px; 
+    background-color: #e0f2e8; /* Light Green */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* --- LOGIN PAGE STYLES --- */
+#loginContainer {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute; /* Cover the entire screen */
+    top: 0;
+    left: 0;
+    background-color: #e0f2e8; 
+    z-index: 1000; /* Ensure it is on top */
+}
+.login-box {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+.login-box h2 {
+    color: #1e3a8a;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+.login-box label {
+    display: block;
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+.login-box input[type="text"],
+.login-box input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+#loginError {
+    color: #dc2626;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+/* LOGIN BUTTON STYLE */
+#loginButton {
+    width: 100%;
+    padding: 10px;
+    background-color: #059669; /* Darker Green */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+#loginButton:hover {
+    background-color: #047857; 
+}
+
+/* --- DASHBOARD STYLES (Existing) --- */
+#dashboardContainer {
+    width: 100%;
+    display: none; /* Initially hidden, shown after login */
+}
+.container {
+    max-width: 95%;
+    width: 100%;
+    margin: 15px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+h1 {
+    text-align: center;
+    color: #1e3a8a;
+    margin-bottom: 15px;
+    font-size: 1.8em;
+    position: relative;
+    z-index: 2;
+}
+
+/* New Style for displaying current user */
+#userWelcome {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 0.9em;
+    color: #333;
+    font-weight: bold;
+}
+#currentUserName {
+    color: #059669;
+    text-transform: capitalize; 
+}
+
+h2 {
+    margin-top: 25px;
+    color: #1e3a8a;
+    font-size: 1.4em;
+    display: inline-block;
+}
+
+#querySummary {
+    font-size: 15px; 
+    color: #059669; 
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+}
+
+.input-center-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.input-group {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+/* Default width for 15-character inputs */
+.input-group > div {
+    flex: 0 0 180px; 
+    display: flex;
+    align-items: center;
+}
+
+/* Specific width for 7-character GCC ID input */
+#gccIdInputWrapper {
+    flex: 0 0 160px;
+}
+
+label {
+    display: inline-block; 
+    font-weight: bold;
+    margin-right: 5px;
+    color: #333;
+    min-width: 70px; 
+}
+
+input[type="text"] {
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: auto;
+    flex-grow: 1;
+    box-sizing: border-box;
+}
+
+select {
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex-grow: 1;
+}
+
+.button-center {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 5px;
+    gap: 10px; /* Space between buttons */
+}
+
+/* Common button style */
+button {
+    padding: 8px 15px;
+    background-color: #059669; 
+    color: white;
+    border: none;
+    border-radius: 44px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+button:hover {
+    background-color: #047857; 
+}
+
+/* Style for the new Summary Button */
+#toggleSummaryButton {
+    background-color: #f59e0b; 
+}
+#toggleSummaryButton:hover {
+    background-color: #d97706;
+}
+
+/* Logout Button Style */
+#logoutButton {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background-color: #dc2626; /* Red */
+    padding: 6px 12px;
+    font-size: 0.9em;
+    z-index: 3;
+}
+#logoutButton:hover {
+    background-color: #b91c1c;
+}
+
+
+/* Download Button Style */
+#downloadCsvButton {
+    background-color: #1e3a8a; /* Citizens Blue */
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    display: block; 
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+}
+#downloadCsvButton:hover {
+    background-color: #1c2e74;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    table-layout: auto; 
+}
+th, td {
+    border: 1px solid #e5e7eb;
+    padding: 8px;
+    text-align: left;
+    word-wrap: break-word;
+    font-size: 13px; 
+}
+th {
+    background-color: #c8e6c9;
+    color: #1e3a8a;
+    font-weight: 600;
+}
+
+/* START: Fixed Column Widths */
+/* Col 1: GCC ID (7) */
+#summaryTable thead tr th:nth-child(1),
+#summaryTableContent tbody tr td:nth-child(1) { width: 70px; min-width: 70px; } 
+/* Col 2: Name (25) */
+#summaryTable thead tr th:nth-child(2),
+#summaryTableContent tbody tr td:nth-child(2) { width: 200px; min-width: 200px; } 
+/* Col 3: Role (20) */
+#summaryTable thead tr th:nth-child(3),
+#summaryTableContent tbody tr td:nth-child(3) { width: 160px; min-width: 160px; } 
+/* Col 4: Level (7) */
+#summaryTable thead tr th:nth-child(4),
+#summaryTableContent tbody tr td:nth-child(4) { width: 70px; min-width: 70px; } 
+/* Col 5: Skills (30) */
+#summaryTable thead tr th:nth-child(5),
+#summaryTableContent tbody tr td:nth-child(5) { width: 240px; min-width: 240px; } 
+/* Col 6: Status (40) - Adjusted down from ~320px to a more practical size */
+#summaryTable thead tr th:nth-child(6),
+#summaryTableContent tbody tr td:nth-child(6) { width: 150px; min-width: 150px; } 
+/* END: Fixed Column Widths */
+
+/* Wrapper to allow independent scrolling of the table body */
+.summary-body-wrapper {
+    max-height: 300px; 
+    overflow-y: auto;
+    border: 1px solid #e5e7eb; 
+    border-top: none;
+    margin-top: -1px; 
+}
+
+/* Ensure table header is fixed */
+#summaryTable thead {
+    display: table-header-group;
+}
+
+/* Ensure table content stretches within the wrapper */
+#summaryTable tbody {
+    display: table-row-group;
+}
+
+
+#resultsTable tbody tr:nth-child(even),
+#summaryTable tbody tr:nth-child(even),
+/* Apply alternating colors to the pivot tables as well */
+.pivot-table tbody tr:nth-child(even) {
+    background-color: #f0fdf4;
+}
+#message {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.success, .error { 
+    font-size: 1.0em;
+}
+.error { color: #dc2626; }
+.success { color: #059669; }
+.empty-table-message {
+    text-align: center;
+    padding: 15px;
+    color: #6b7280;
+    font-style: italic;
+    font-size: 13px; 
+}
+.status-highlight {
+    background-color: #fff8e1 !important;
+    font-weight: bold;
+    color: #b45309; 
+}
+.summary-row:hover {
+    background-color: #b9fbc7 !important;
+    cursor: pointer;
+}
+
+/* Pivot Table Styles */
+#summaryPivotContainer {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    background-color: #f8fcf9;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+}
+.pivot-section {
+    display: flex; 
+    flex-direction: column;
+    flex: 1 1 100%; 
+    min-width: 250px;
+}
+.pivot-filters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+.pivot-filters > div {
+    flex: 0 0 calc(25% - 15px); 
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+}
+.pivot-filters label {
+    min-width: 50px;
+    margin-right: 5px;
+}
+
+/* Custom adjustment for the Level dropdown width */
+#slFilterWrapper {
+    min-width: 150px; 
+}
+
+.pivot-content {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+.pivot-content > div {
+     flex: 1 1 200px; 
+}
+.pivot-table {
+    width: 100%;
+    margin-top: 10px;
+}
+.pivot-table th {
+    background-color: #e6f1e6; 
+    color: #059669;
+}
+
+/* Style for clickable count links in pivot table */
+.pivot-table td a {
+    color: #1e3a8a;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#statusChart {
+    max-height: 350px; 
+}
+
+/* NEW CSS for Chart.js Legend positioning */
+.chart-container-with-legend {
+     position: relative;
+     flex: 1 1 200px;
+}
+.chartjs-render-monitor {
+     max-height: 300px; /* Reduced height to make space for legend */
+}
+/* Style for the "Show full details" link */
+#showFullDetailsLink {
+    color: #1e3a8a;
+    font-weight: bold;
+    text-decoration: underline;
+    font-size: 1.0em;
+}
+
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 1000px) {
+     .pivot-filters > div {
+        flex: 0 0 calc(50% - 15px); /* Two columns */
+     }
+}
+@media (max-width: 600px) {
+    .pivot-content {
+        flex-direction: column;
+    }
+    .pivot-filters {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .pivot-filters > div {
+        flex-basis: 100%;
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    /* Ensure label is on its own line and separated from select */
+    .pivot-filters label {
+        min-width: unset;
+        width: 100%;
+        margin-bottom: 3px;
+        margin-right: 0; 
+    }
+}

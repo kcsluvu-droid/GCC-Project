@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizens GCC Search (Login)</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+</head>
+<body>
+
+<div id="loginContainer">
+    <div class="login-box">
+        <h2>GCC Dashboard Login</h2>
+        <form onsubmit="event.preventDefault(); handleLogin();">
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" required>
+            </div>
+            <p id="loginError" style="display: none;">Invalid username or password.</p>
+            <button type="submit" id="loginButton">Login</button>
+            </form>
+    </div>
+</div>
+<div id="dashboardContainer" style="display: none;">
+    
+<div class="container">
+    
+    <button id="logoutButton" onclick="handleLogout()">Logout</button>
+    
+    <div id="userWelcome">
+        Welcome, <span id="currentUserName"></span>
+    </div>
+    
+    <h1>Cognizant GCC Dashboard - <span style="color: #059669;">Citizens Bank</span></h1>
+
+    <form class="search-form" onsubmit="event.preventDefault(); searchEmployee();">
+        <div class="input-center-wrapper">
+            <div class="input-group">
+                <div id="gccIdInputWrapper">
+                    <label for="gccIdInput">GCC ID:</label>
+                    <input type="text" id="gccIdInput" placeholder="B00XXX" size="7">
+                </div>
+                <div>
+                    <label for="firstNameInput">First Name:</label>
+                    <input type="text" id="firstNameInput" placeholder="Enter first name" size="15">
+                </div>
+                <div>
+                    <label for="lastNameInput">Last Name:</label>
+                    <input type="text" id="lastNameInput" placeholder="Enter last name" size="15">
+                </div>
+                
+                <div>
+                    <label for="skillInput">Skills:</label>
+                    <input type="text" id="skillInput" placeholder="e.g., tech background" size="15">
+                </div>
+                
+                <div>
+                    <label for="sourceInput">Source:</label>
+                    <input type="text" id="sourceInput" placeholder="e.g., Vendor, Internal" size="15">
+                </div>
+            </div>
+        </div>
+        
+        <div class="button-center">
+            <button type="submit">Search GCCs</button>
+            <button type="button" id="toggleSummaryButton" onclick="toggleSummaryPivot()">
+                Show Summary
+            </button>
+        </div>
+    </form>
+
+    <div id="message" class="error">Loading data...</div>
+
+    <div id="summaryPivotContainer" style="display: none;">
+        <h3>Data Summary</h3>
+        <div class="pivot-section">
+            
+            <div class="pivot-filters">
+                
+                <div>
+                    <label for="statusFilter">Status:</label>
+                    <select id="statusFilter" onchange="createDataPivot()" style="width: 12ch;">
+                        <option value="">All Statuses</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="sourceFilter">Source:</label>
+                    <select id="sourceFilter" onchange="createDataPivot()" style="width: 12ch;">
+                        <option value="">All Sources</option>
+                    </select>
+                </div>
+                <div id="slFilterWrapper">
+                    <label for="slFilter">Level:</label>
+                    <select id="slFilter" onchange="createDataPivot()" style="width: 5ch;">
+                        <option value="">All Levels</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="tsltMemberFilter">TSLT:</label>
+                    <select id="tsltMemberFilter" onchange="createDataPivot()" style="width: 10ch;">
+                        <option value="">All TSLT</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="quarterFilter">Quarter:</label>
+                    <select id="quarterFilter" onchange="createDataPivot()" style="width: 5ch;">
+                        <option value="">All Quarters</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="groupByButtons" class="pivot-group-by-buttons">
+                <span>Group By:</span>
+                <a href="#" data-group-by="Status" class="active" onclick="setGroupingField(this, 'Status')">Status</a>
+                <a href="#" data-group-by="Quarter" onclick="setGroupingField(this, 'Quarter')">Quarter</a>
+                <a href="#" data-group-by="Level" onclick="setGroupingField(this, 'Level')">Level</a>
+                <a href="#" data-group-by="Source" onclick="setGroupingField(this, 'Source')">Source</a>
+            </div>
+            
+            <div class="pivot-content">
+                <div>
+                    <table class="pivot-table">
+                        <thead><tr><th id="pivotCategoryHeader">Status</th><th>Count</th><th>Percentage</th></tr></thead>
+                        <tbody id="pivotStatusBody"></tbody>
+                    </table>
+                </div>
+                <div class="chart-container-with-legend"> 
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <h2>Search Results Summary <span id="querySummary">(No search performed)</span></h2>
+    <table id="summaryTable">
+        <thead>
+            <tr>
+                <th>GCC ID</th>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Level</th>
+                <th>Skills</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        </table>
+        
+        <div class="summary-body-wrapper">
+        <table id="summaryTableContent">
+        <tbody id="summaryTableBody">
+            <tr><td colspan="6" class="empty-table-message">Enter search criteria and click 'Search GCCs'.</td></tr>
+        </tbody>
+    </table>
+    </div>
+
+    <h2>Full Details (<span id="detailsTitle">Select a result above</span>)</h2>
+    <table id="resultsTable">
+        <thead>
+            <tr>
+                <th>Field</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody id="detailsTableBody">
+            <tr><td colspan="2" class="empty-table-message">Full details will appear here after search.</td></tr>
+        </tbody>
+    </table>
+    
+    <div id="fullDetailsLinkContainer" style="margin-top: 10px; margin-bottom: 10px; display: none;">
+        <a href="#" id="showFullDetailsLink">Show full details</a>
+    </div>
+
+    <button id="downloadCsvButton" onclick="downloadSelectedGccData()" disabled>
+        Download Selected GCC Details (CSV)
+    </button>
+</div>
+</div>
+<script src="script.js"></script>
+
+</body>
+</html>
